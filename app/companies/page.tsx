@@ -36,24 +36,25 @@ const allCompanies = [
 
 export default function CompaniesPage() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('all')
-  const [selectedTier, setSelectedTier] = useState('all')
+  const [selectedYear, setSelectedYear] = useState('all')
+  const [selectedBranch, setSelectedBranch] = useState('all')
   const [sortBy, setSortBy] = useState('experiences')
 
-  const categories = [
-    { id: 'all', label: 'All Categories' },
-    { id: 'Product', label: 'Product' },
-    { id: 'Service', label: 'Service' },
-    { id: 'Consulting', label: 'Consulting' },
-    { id: 'Fintech', label: 'Fintech' }
+  const years = [
+    { id: 'all', label: 'All Years' },
+    { id: '2024', label: '2024' },
+    { id: '2023', label: '2023' },
+    { id: '2022', label: '2022' }
   ]
 
-  const tiers = [
-    { id: 'all', label: 'All Tiers' },
-    { id: 'FAANG', label: 'FAANG' },
-    { id: 'Tier 1', label: 'Tier 1' },
-    { id: 'Tier 2', label: 'Tier 2' },
-    { id: 'Unicorn', label: 'Unicorn' }
+  const branches = [
+    { id: 'all', label: 'All Branches' },
+    { id: 'CSE', label: 'CSE' },
+    { id: 'ECE', label: 'Electronics & Communication' },
+    { id: 'EEE', label: 'Electrical Engineering' },
+    { id: 'MECH', label: 'Mechanical' },
+    { id: 'CIVIL', label: 'Civil' },
+    { id: 'AIML', label: 'AI & ML' }
   ]
 
   const getFilteredCompanies = () => {
@@ -66,14 +67,16 @@ export default function CompaniesPage() {
       )
     }
 
-    // Category filter
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(company => company.category === selectedCategory)
+    // Year filter (in real app, would filter by experience year)
+    // For now, just keeping all companies
+    if (selectedYear !== 'all') {
+      // TODO: Filter by year when backend supports it
     }
 
-    // Tier filter
-    if (selectedTier !== 'all') {
-      filtered = filtered.filter(company => company.tier === selectedTier)
+    // Branch filter (in real app, would filter by user branch)
+    // For now, just keeping all companies
+    if (selectedBranch !== 'all') {
+      // TODO: Filter by branch when backend supports it
     }
 
     // Sort
@@ -111,13 +114,19 @@ export default function CompaniesPage() {
 
         {/* Search and Filters */}
         <div className="sticker-card p-6 mb-8">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          <div className="flex items-center space-x-2 mb-4">
+            <MagnifyingGlassIcon className="h-5 w-5 text-black" />
+            <h3 className="text-lg font-semibold text-black">Find Companies</h3>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Search */}
-            <div className="lg:col-span-2">
+            <div>
+              <label className="block text-sm font-medium text-black mb-2">Search Companies</label>
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Search companies..."
+                  placeholder="Search by company name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="sticker-input pr-12"
@@ -126,31 +135,33 @@ export default function CompaniesPage() {
               </div>
             </div>
 
-            {/* Category Filter */}
+            {/* Year Filter */}
             <div>
+              <label className="block text-sm font-medium text-black mb-2">Year</label>
               <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
                 className="sticker-input"
               >
-                {categories.map(category => (
-                  <option key={category.id} value={category.id}>
-                    {category.label}
+                {years.map(year => (
+                  <option key={year.id} value={year.id}>
+                    {year.label}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Tier Filter */}
+            {/* Branch Filter */}
             <div>
+              <label className="block text-sm font-medium text-black mb-2">Branch</label>
               <select
-                value={selectedTier}
-                onChange={(e) => setSelectedTier(e.target.value)}
+                value={selectedBranch}
+                onChange={(e) => setSelectedBranch(e.target.value)}
                 className="sticker-input"
               >
-                {tiers.map(tier => (
-                  <option key={tier.id} value={tier.id}>
-                    {tier.label}
+                {branches.map(branch => (
+                  <option key={branch.id} value={branch.id}>
+                    {branch.label}
                   </option>
                 ))}
               </select>
@@ -216,8 +227,8 @@ export default function CompaniesPage() {
             <button
               onClick={() => {
                 setSearchQuery('')
-                setSelectedCategory('all')
-                setSelectedTier('all')
+                setSelectedYear('all')
+                setSelectedBranch('all')
               }}
               className="sticker-button"
             >

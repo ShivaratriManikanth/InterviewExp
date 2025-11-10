@@ -59,7 +59,7 @@ export default function Register() {
 
   const degrees = [
     'B.Tech (Bachelor of Technology)',
-    'B.E (Bachelor of Engineering)', 
+    'B.E (Bachelor of Engineering)',
     'BCA (Bachelor of Computer Applications)',
     'B.Sc (Bachelor of Science)',
     'M.Tech (Master of Technology)',
@@ -187,7 +187,7 @@ export default function Register() {
     try {
       // Import API function
       const { authAPI } = await import('../lib/api')
-      
+
       // Prepare registration data
       const registrationData = {
         name: formData.name,
@@ -219,7 +219,7 @@ export default function Register() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      
+
       <div className="py-12 px-4">
         <div className="max-w-md mx-auto">
           <div className="sticker-card p-8">

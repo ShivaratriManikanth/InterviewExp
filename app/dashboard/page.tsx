@@ -27,8 +27,8 @@ export default function Dashboard() {
   const [companies, setCompanies] = useState<CompanyExperienceCount[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedTier, setSelectedTier] = useState<string>('all')
-  const [selectedType, setSelectedType] = useState<string>('all')
+  const [selectedYear, setSelectedYear] = useState<string>('all')
+  const [selectedBranch, setSelectedBranch] = useState<string>('all')
 
   useEffect(() => {
     if (!utils.isAuthenticated()) {
@@ -126,9 +126,8 @@ export default function Dashboard() {
   const getFilteredCompanies = () => {
     return companies.filter(company => {
       const matchesSearch = company.companyName.toLowerCase().includes(searchQuery.toLowerCase())
-      const matchesTier = selectedTier === 'all' || company.companyTier === selectedTier
-      const matchesType = selectedType === 'all' || company.companyCategory === selectedType
-      return matchesSearch && matchesTier && matchesType
+      // Year and Branch filters will be implemented when backend supports filtering by experience year and user branch
+      return matchesSearch
     })
   }
 
@@ -235,37 +234,38 @@ export default function Dashboard() {
             </div>
             
             <div>
-              <label className="block text-sm font-semibold text-black mb-2">Company Tier</label>
+              <label className="block text-sm font-semibold text-black mb-2">Year</label>
               <select
-                value={selectedTier}
-                onChange={(e) => setSelectedTier(e.target.value)}
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
                 className="w-full px-4 py-2 border-3 border-black rounded-lg focus:ring-4 focus:ring-ocean-200 focus:outline-none font-medium"
               >
-                <option value="all">All Tiers</option>
-                <option value="FAANG">FAANG</option>
-                <option value="Tier 1">Tier 1</option>
-                <option value="Tier 2">Tier 2</option>
-                <option value="Unicorn">Unicorn</option>
+                <option value="all">All Years</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
               </select>
             </div>
             
             <div>
-              <label className="block text-sm font-semibold text-black mb-2">Company Type</label>
+              <label className="block text-sm font-semibold text-black mb-2">Branch</label>
               <select
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
+                value={selectedBranch}
+                onChange={(e) => setSelectedBranch(e.target.value)}
                 className="w-full px-4 py-2 border-3 border-black rounded-lg focus:ring-4 focus:ring-ocean-200 focus:outline-none font-medium"
               >
-                <option value="all">All Types</option>
-                <option value="Product">Product</option>
-                <option value="Service">Service</option>
-                <option value="Consulting">Consulting</option>
-                <option value="Fintech">Fintech</option>
+                <option value="all">All Branches</option>
+                <option value="CSE">CSE</option>
+                <option value="ECE">Electronics & Communication</option>
+                <option value="EEE">Electrical Engineering</option>
+                <option value="MECH">Mechanical</option>
+                <option value="CIVIL">Civil</option>
+                <option value="AIML">AI & ML</option>
               </select>
             </div>
           </div>
           
-          {(searchQuery || selectedTier !== 'all' || selectedType !== 'all') && (
+          {(searchQuery || selectedYear !== 'all' || selectedBranch !== 'all') && (
             <div className="mt-4 flex items-center justify-between pt-4 border-t-2 border-gray-200">
               <p className="text-sm text-black font-medium">
                 Showing <span className="font-bold">{filteredCompanies.length}</span> of {companies.length} companies
@@ -273,8 +273,8 @@ export default function Dashboard() {
               <button
                 onClick={() => {
                   setSearchQuery('')
-                  setSelectedTier('all')
-                  setSelectedType('all')
+                  setSelectedYear('all')
+                  setSelectedBranch('all')
                 }}
                 className="text-sm text-ocean-600 hover:underline font-semibold"
               >
