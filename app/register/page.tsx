@@ -236,11 +236,13 @@ export default function Register() {
                   type="text"
                   name="name"
                   required
+                  minLength={2}
                   value={formData.name}
                   onChange={handleChange}
                   className="sticker-input"
-                  placeholder="Enter your full name"
+                  placeholder="e.g., Rahul Kumar or Priya Sharma"
                 />
+                <p className="text-xs text-gray-500 mt-1">Your full name as per college records</p>
               </div>
 
               <div>
@@ -298,7 +300,7 @@ export default function Register() {
 
               <div>
                 <label className="block text-sm font-semibold text-black mb-2">
-                  Roll Number
+                  Roll Number (Optional)
                 </label>
                 <input
                   type="text"
@@ -306,8 +308,9 @@ export default function Register() {
                   value={formData.rollNo}
                   onChange={handleChange}
                   className="sticker-input"
-                  placeholder="Enter your roll number (optional)"
+                  placeholder="e.g., 21BCE1234 or 2021CS001"
                 />
+                <p className="text-xs text-gray-500 mt-1">Your college roll number or registration number</p>
               </div>
 
               <div>
@@ -392,32 +395,41 @@ export default function Register() {
 
               <div>
                 <label className="block text-sm font-semibold text-black mb-2">
-                  Password
+                  Password *
                 </label>
                 <input
                   type="password"
                   name="password"
                   required
+                  minLength={6}
                   value={formData.password}
                   onChange={handleChange}
                   className="sticker-input"
-                  placeholder="Create a strong password"
+                  placeholder="At least 6 characters"
                 />
+                <p className="text-xs text-gray-500 mt-1">Minimum 6 characters required</p>
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-black mb-2">
-                  Confirm Password
+                  Confirm Password *
                 </label>
                 <input
                   type="password"
                   name="confirmPassword"
                   required
+                  minLength={6}
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   className="sticker-input"
-                  placeholder="Confirm your password"
+                  placeholder="Re-enter your password"
                 />
+                {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                  <p className="text-xs text-red-600 mt-1">⚠️ Passwords do not match</p>
+                )}
+                {formData.confirmPassword && formData.password === formData.confirmPassword && (
+                  <p className="text-xs text-green-600 mt-1">✓ Passwords match</p>
+                )}
               </div>
 
               <button
