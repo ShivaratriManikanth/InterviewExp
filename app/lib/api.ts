@@ -1,7 +1,7 @@
 import { ApiResponse, User, Company, Experience, Comment, Chat, ExperienceFilters, CompanyFilters, ExperienceFormData, LoginFormData, RegisterFormData } from '../types/api'
 
 // API Configuration and Helper Functions
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://interview-exp-app-1.onrender.com/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://project-mani-1.onrender.com/api';
 
 // Get auth token from localStorage (separate for admin and user)
 const getAuthToken = (isAdmin: boolean = false): string | null => {
