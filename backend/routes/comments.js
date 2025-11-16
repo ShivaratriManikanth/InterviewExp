@@ -5,6 +5,9 @@ const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
+// Apply authentication to all comment routes
+router.use(authenticateToken);
+
 // @route   POST /api/comments/:experienceId
 // @desc    Create a comment on an experience
 // @access  Private

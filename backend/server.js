@@ -27,19 +27,28 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
+// Validate JWT secret on startup
+if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
+  console.error('⚠️  WARNING: JWT_SECRET is not set or is too weak. Please use a strong secret (at least 32 characters).');
+  if (process.env.NODE_ENV === 'production') {
+    console.error('❌ Cannot start server in production without a strong JWT_SECRET');
+    process.exit(1);
+  }
+}
+
 // Rate limiting - More lenient in development
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
   max: process.env.NODE_ENV === 'production' 
     ? parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100 
-    : 100000, // 100k requests in development
+    : 1000, // 1000 requests in development (more realistic)
   message: {
     error: 'Too many requests from this IP, please try again later.',
     retryAfter: Math.ceil((parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000) / 1000)
   },
   standardHeaders: true,
   legacyHeaders: false,
-  skip: (req) => process.env.NODE_ENV === 'development' && req.ip === '::1', // Skip for localhost in dev
+  skip: (req) => process.env.NODE_ENV === 'development' && (req.ip === '::1' || req.ip === '127.0.0.1'), // Skip for localhost in dev
 });
 
 app.use(limiter);
@@ -58,11 +67,12 @@ const corsOptions = {
         callback(new Error('Not allowed by CORS'));
       }
     } else {
-      // In development, allow localhost
+      // In development, allow localhost on any port
       const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:3000', 'http://127.0.0.1:3001'];
-      if (allowedOrigins.includes(origin)) {
+      if (allowedOrigins.includes(origin) || origin.startsWith('http://localhost:')) {
         callback(null, true);
       } else {
+        console.log('CORS blocked origin:', origin);
         callback(new Error('Not allowed by CORS'));
       }
     }
@@ -103,11 +113,11 @@ app.get('/health', (req, res) => {
 
 // API routes
 app.use('/api/auth', authRoutes);
-app.use('/api/users', authenticateToken, userRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/experiences', experienceRoutes);
 app.use('/api/companies', companyRoutes);
-app.use('/api/comments', authenticateToken, commentRoutes);
-app.use('/api/chats', authenticateToken, chatRoutes);
+app.use('/api/comments', commentRoutes);
+app.use('/api/chats', chatRoutes);
 app.use('/api/admin', adminRoutes);
 
 // 404 handler

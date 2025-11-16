@@ -14,7 +14,6 @@ export default function Register() {
     password: '',
     confirmPassword: '',
     college: '',
-    customCollege: '',
     degree: '',
     course: '',
     customCourse: '',
@@ -23,39 +22,6 @@ export default function Register() {
 
   const [availableCourses, setAvailableCourses] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(false)
-
-  const colleges = [
-    'Indian Institute of Technology (IIT) Delhi',
-    'Indian Institute of Technology (IIT) Bombay',
-    'Indian Institute of Technology (IIT) Madras',
-    'Indian Institute of Technology (IIT) Kanpur',
-    'Indian Institute of Technology (IIT) Kharagpur',
-    'Indian Institute of Technology (IIT) Roorkee',
-    'Indian Institute of Technology (IIT) Guwahati',
-    'Indian Institute of Technology (IIT) Hyderabad',
-    'National Institute of Technology (NIT) Trichy',
-    'National Institute of Technology (NIT) Warangal',
-    'National Institute of Technology (NIT) Surathkal',
-    'National Institute of Technology (NIT) Calicut',
-    'Birla Institute of Technology and Science (BITS) Pilani',
-    'Delhi Technological University (DTU)',
-    'Netaji Subhas University of Technology (NSUT)',
-    'Jadavpur University',
-    'Anna University',
-    'Vellore Institute of Technology (VIT)',
-    'SRM Institute of Science and Technology',
-    'Manipal Institute of Technology',
-    'PES University',
-    'RV College of Engineering',
-    'BMS College of Engineering',
-    'Ramaiah Institute of Technology',
-    'JSS Science and Technology University',
-    'Amrita Vishwa Vidyapeetham',
-    'Thapar Institute of Engineering and Technology',
-    'Lovely Professional University (LPU)',
-    'Chandigarh University',
-    'Other'
-  ]
 
   const degrees = [
     'B.Tech (Bachelor of Technology)',
@@ -194,37 +160,120 @@ export default function Register() {
         email: formData.email,
         password: formData.password,
         rollNo: formData.rollNo,
-        college: formData.college === 'Other' ? formData.customCollege : formData.college,
+        college: formData.college,
         degree: formData.degree,
         course: formData.course === 'Other' ? formData.customCourse : formData.course,
         year: formData.year
       }
 
+      console.log('Attempting registration with:', registrationData)
+
       const response = await authAPI.register(registrationData)
+
+      console.log('Registration response:', response)
 
       if (response.success) {
         alert('Registration successful! Welcome to the platform!')
         router.push('/dashboard')
       } else {
-        alert(response.message || 'Registration failed. Please try again.')
+        // Show detailed error message
+        if (response.error && typeof response.error === 'object' && Array.isArray(response.error)) {
+          const errorMessages = response.error.map((err: any) => `• ${err.field}: ${err.message}`).join('\n')
+          alert('❌ Registration Failed:\n\n' + errorMessages)
+        } else {
+          alert('❌ ' + (response.message || 'Registration failed. Please try again.'))
+        }
       }
     } catch (error) {
       console.error('Registration error:', error)
-      alert('Registration failed. Please check your connection and try again.')
+      alert('❌ Network Error: Unable to connect to server.\n\nPlease ensure:\n1. Backend server is running on http://localhost:5000\n2. Your internet connection is active\n3. No firewall is blocking the connection')
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden">
+      {/* Professional Registration Background Image */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-15"
+        style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1920&h=1080&fit=crop&q=80)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      ></div>
+
+      {/* Professional Dot Pattern */}
+      <div className="absolute inset-0 pointer-events-none opacity-10">
+        <div className="absolute top-0 left-0 w-full h-full" style={{
+          backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.3) 1px, transparent 0)',
+          backgroundSize: '40px 40px'
+        }}></div>
+      </div>
+
+      {/* Gradient Orbs */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '1s' }}></div>
+
       <Navbar />
 
-      <div className="py-12 px-4">
-        <div className="max-w-md mx-auto">
-          <div className="sticker-card p-8">
-            <h1 className="text-3xl font-bold text-center text-black mb-8">
-              Join the Community
+      <div className="relative z-10 min-h-screen flex items-center justify-center py-12 px-4">
+        <div className="max-w-6xl w-full grid md:grid-cols-2 gap-8 items-center">
+          {/* Left Side - Welcome Content */}
+          <div className="hidden md:block text-white">
+            <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-3xl p-12 shadow-2xl">
+              <div className="mb-8">
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl mb-6 shadow-lg">
+                  <span className="text-5xl">🚀</span>
+                </div>
+                <h1 className="text-5xl font-extrabold mb-4">
+                  Join the Community
+                </h1>
+                <p className="text-xl text-blue-100 mb-8">
+                  Start sharing and learning from interview experiences
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">💼</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold mb-1">Real Interview Experiences</h3>
+                    <p className="text-blue-100">Access authentic stories from students at top companies</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">🎯</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold mb-1">Prepare Effectively</h3>
+                    <p className="text-blue-100">Learn from detailed insights and success strategies</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">🤝</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold mb-1">Connect & Grow</h3>
+                    <p className="text-blue-100">Build your network and help others succeed</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side - Register Form */}
+          <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-200 max-h-[85vh] overflow-y-auto">
+            <h1 className="text-2xl font-bold text-center text-gray-900 mb-6">
+              Create Your Account
             </h1>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -239,7 +288,7 @@ export default function Register() {
                   minLength={2}
                   value={formData.name}
                   onChange={handleChange}
-                  className="sticker-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-gray-900"
                   placeholder="e.g., Rahul Kumar or Priya Sharma"
                 />
                 <p className="text-xs text-gray-500 mt-1">Your full name as per college records</p>
@@ -255,48 +304,11 @@ export default function Register() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="sticker-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-gray-900"
                   placeholder="your.email@gmail.com or college email"
                 />
                 <p className="text-xs text-gray-500 mt-1">Any valid email address is accepted</p>
               </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-black mb-2">
-                  College/University *
-                </label>
-                <select
-                  name="college"
-                  required
-                  value={formData.college}
-                  onChange={handleChange}
-                  className="sticker-input"
-                >
-                  <option value="">Select your college</option>
-                  {colleges.map((college) => (
-                    <option key={college} value={college}>
-                      {college}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {formData.college === 'Other' && (
-                <div>
-                  <label className="block text-sm font-semibold text-black mb-2">
-                    College Name *
-                  </label>
-                  <input
-                    type="text"
-                    name="customCollege"
-                    required
-                    value={formData.customCollege}
-                    onChange={handleChange}
-                    className="sticker-input"
-                    placeholder="Enter your college name"
-                  />
-                </div>
-              )}
 
               <div>
                 <label className="block text-sm font-semibold text-black mb-2">
@@ -307,10 +319,26 @@ export default function Register() {
                   name="rollNo"
                   value={formData.rollNo}
                   onChange={handleChange}
-                  className="sticker-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-gray-900"
                   placeholder="e.g., 21BCE1234 or 2021CS001"
                 />
                 <p className="text-xs text-gray-500 mt-1">Your college roll number or registration number</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-black mb-2">
+                  College Name *
+                </label>
+                <input
+                  type="text"
+                  name="college"
+                  required
+                  value={formData.college}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-gray-900"
+                  placeholder="e.g., IIT Delhi, VIT Vellore, BITS Pilani"
+                />
+                <p className="text-xs text-gray-500 mt-1">Your college or university name</p>
               </div>
 
               <div>
@@ -322,7 +350,7 @@ export default function Register() {
                   required
                   value={formData.degree}
                   onChange={handleChange}
-                  className="sticker-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-gray-900"
                 >
                   <option value="">Select your degree</option>
                   {degrees.map((degree) => (
@@ -343,7 +371,7 @@ export default function Register() {
                     required
                     value={formData.course}
                     onChange={handleChange}
-                    className="sticker-input"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-gray-900"
                   >
                     <option value="">Select your course</option>
                     {availableCourses.map((course) => (
@@ -367,7 +395,7 @@ export default function Register() {
                     required
                     value={formData.customCourse}
                     onChange={handleChange}
-                    className="sticker-input"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-gray-900"
                     placeholder="Enter your course name"
                   />
                 </div>
@@ -382,7 +410,7 @@ export default function Register() {
                   required
                   value={formData.year}
                   onChange={handleChange}
-                  className="sticker-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-gray-900"
                 >
                   <option value="">Select your current year</option>
                   {years.map((year) => (
@@ -404,7 +432,7 @@ export default function Register() {
                   minLength={6}
                   value={formData.password}
                   onChange={handleChange}
-                  className="sticker-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-gray-900"
                   placeholder="At least 6 characters"
                 />
                 <p className="text-xs text-gray-500 mt-1">Minimum 6 characters required</p>
@@ -421,7 +449,7 @@ export default function Register() {
                   minLength={6}
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="sticker-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-gray-900"
                   placeholder="Re-enter your password"
                 />
                 {formData.confirmPassword && formData.password !== formData.confirmPassword && (
@@ -435,18 +463,25 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full sticker-button disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                {isLoading ? 'Creating Account...' : 'Register'}
+                {isLoading ? 'Creating Account...' : 'Create Account'}
               </button>
             </form>
 
-            <div className="mt-6 text-center">
+            <div className="mt-8 text-center">
               <p className="text-gray-600">
                 Already have an account?{' '}
-                <Link href="/login" className="text-ocean-600 font-semibold hover:underline">
+                <Link href="/login" className="text-blue-600 font-bold hover:text-purple-600 transition-colors">
                   Sign In
                 </Link>
+              </p>
+            </div>
+
+            {/* Additional Info */}
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-500">
+                By creating an account, you agree to our Terms of Service and Privacy Policy
               </p>
             </div>
           </div>

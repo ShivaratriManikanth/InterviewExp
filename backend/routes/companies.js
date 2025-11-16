@@ -52,21 +52,25 @@ router.get('/', async (req, res) => {
       });
     }
 
-    // Get experience counts for each company
-    const companiesWithCounts = await Promise.all(
-      companies.map(async (company) => {
-        const { count: experienceCount } = await supabase
-          .from('experiences')
-          .select('id', { count: 'exact' })
-          .eq('company_id', company.id)
-          .eq('status', 'approved');
+    // Get experience counts for all companies in one query
+    const companyIds = companies.map(c => c.id);
+    const { data: experienceCounts } = await supabase
+      .from('experiences')
+      .select('company_id')
+      .in('company_id', companyIds)
+      .eq('status', 'approved');
 
-        return {
-          ...company,
-          experienceCount: experienceCount || 0
-        };
-      })
-    );
+    // Count experiences per company
+    const countMap = {};
+    experienceCounts?.forEach(exp => {
+      countMap[exp.company_id] = (countMap[exp.company_id] || 0) + 1;
+    });
+
+    // Add counts to companies
+    const companiesWithCounts = companies.map(company => ({
+      ...company,
+      experienceCount: countMap[company.id] || 0
+    }));
 
     const totalPages = Math.ceil(count / parseInt(limit));
 
@@ -144,19 +148,7 @@ router.get('/:slug', optionalAuth, async (req, res) => {
       .order(sortBy, { ascending: sortOrder === 'asc' })
       .range(offset, offset + parseInt(limit) - 1);
 
-    // COLLEGE FILTER - If user is logged in, filter by their college (case-insensitive)
-    if (req.user) {
-      const { data: userData } = await supabase
-        .from('users')
-        .select('college')
-        .eq('id', req.user.id)
-        .single();
-      
-      if (userData?.college) {
-        // Note: Filtering on joined table fields needs to be done after fetching
-        // We'll filter in the application layer
-      }
-    }
+    // Note: College filtering will be applied after fetching due to Supabase limitations with joined tables
 
     // Apply other filters
     if (experienceType) {
@@ -171,7 +163,7 @@ router.get('/:slug', optionalAuth, async (req, res) => {
       experienceQuery = experienceQuery.eq('users.course', branch);
     }
 
-    const { data: experiences, error: expError, count } = await experienceQuery;
+    const { data: allExperiences, error: expError, count } = await experienceQuery;
 
     if (expError) {
       console.error('Get company experiences error:', expError);
@@ -180,6 +172,29 @@ router.get('/:slug', optionalAuth, async (req, res) => {
         message: 'Failed to fetch company experiences',
         error: 'Fetch Failed'
       });
+    }
+
+    // Apply college filter in application layer if needed
+    let experiences = allExperiences;
+    let userCollege = null;
+
+    if (req.user) {
+      const { data: userData } = await supabase
+        .from('users')
+        .select('college')
+        .eq('id', req.user.id)
+        .single();
+      
+      if (userData?.college && userData.college !== 'Not Specified') {
+        userCollege = userData.college;
+        experiences = allExperiences?.filter(exp => 
+          exp.users?.college?.toLowerCase() === userCollege.toLowerCase()
+        );
+      }
+    } else if (college) {
+      experiences = allExperiences?.filter(exp => 
+        exp.users?.college?.toLowerCase() === college.toLowerCase()
+      );
     }
 
     // Get company statistics (college-specific)

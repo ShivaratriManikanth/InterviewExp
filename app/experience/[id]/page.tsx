@@ -101,110 +101,126 @@ export default function ExperienceView() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        {/* Header Card */}
-        <div className="bg-white rounded-2xl shadow-lg border-4 border-black p-8 mb-6">
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex items-start gap-4 flex-1">
-              {experience.companies?.logo_url && (
-                <img 
-                  src={experience.companies.logo_url} 
-                  alt={experience.companies.name}
-                  className="w-20 h-20 rounded-xl object-cover border-3 border-black"
-                />
-              )}
-              <div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                  {experience.role}
-                </h1>
-                <p className="text-2xl text-gray-700 font-semibold mb-3">
-                  {experience.companies?.name}
-                </p>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => router.push(`/user/${experience.users?.id}`)}
-                    className="flex items-center gap-2 text-ocean-600 hover:text-ocean-700 font-semibold hover:underline transition-colors"
-                  >
-                    <div className="w-8 h-8 bg-gradient-to-br from-ocean-400 to-mint-400 rounded-full border-2 border-black flex items-center justify-center">
-                      <span className="text-white font-bold text-xs">
-                        {experience.users?.name?.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                    {experience.users?.name}
-                  </button>
-                  {experience.users?.course && <span className="text-gray-600">• {experience.users.course}</span>}
-                  {experience.users?.year && <span className="text-gray-600">• {experience.users.year}</span>}
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Header Card - Modern & Clean */}
+        <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden mb-6">
+          {/* Top Section with Gradient */}
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start gap-4 flex-1">
+                {experience.companies?.logo_url && (
+                  <div className="bg-white p-2 rounded-lg shadow-lg">
+                    <img 
+                      src={experience.companies.logo_url} 
+                      alt={experience.companies.name}
+                      className="w-16 h-16 rounded-lg object-cover"
+                    />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <h1 className="text-3xl font-bold text-white mb-2">
+                    {experience.role}
+                  </h1>
+                  <p className="text-xl text-blue-100 font-semibold mb-3">
+                    {experience.companies?.name}
+                  </p>
                 </div>
               </div>
-            </div>
-            
-            <span className={`px-4 py-2 rounded-full border-3 border-black text-lg font-bold ${resultColors[experience.result]}`}>
-              {experience.result === 'Selected' ? '✅' : experience.result === 'Not Selected' ? '❌' : '⏳'} {experience.result}
-            </span>
-          </div>
-
-          {/* Meta Info */}
-          <div className="flex items-center gap-6 text-gray-600 mb-6 pb-6 border-b-2 border-gray-200">
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Type:</span>
-              <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-lg text-sm font-semibold">
-                {experience.experience_type}
+              
+              <span className={`px-4 py-2 rounded-lg text-base font-bold shadow-lg ${resultColors[experience.result]}`}>
+                {experience.result === 'Selected' ? '✅' : experience.result === 'Not Selected' ? '❌' : '⏳'} {experience.result}
               </span>
             </div>
-            {experience.interview_date && (
-              <div className="flex items-center gap-2">
-                <CalendarIcon className="h-5 w-5" />
-                <span>{new Date(experience.interview_date).toLocaleDateString()}</span>
-              </div>
-            )}
-            {experience.location && (
-              <div className="flex items-center gap-2">
-                <MapPinIcon className="h-5 w-5" />
-                <span>{experience.location}</span>
-              </div>
-            )}
-            <div className="flex items-center gap-2">
-              <EyeIcon className="h-5 w-5" />
-              <span>{experience.views_count || 0} views</span>
-            </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleShare}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg border-2 border-black font-semibold hover:bg-blue-600 transition-colors"
-            >
-              <ShareIcon className="h-5 w-5" />
-              Share
-            </button>
-            
-            {user && experience.users?.id !== user.id && (
+          {/* Bottom Section - White */}
+          <div className="px-8 py-6">
+            {/* Author Info */}
+            <div className="flex items-center gap-3 mb-6 pb-6 border-b border-gray-200">
               <button
-                onClick={handleChat}
-                className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg border-2 border-black font-semibold hover:bg-green-600 transition-colors"
+                onClick={() => router.push(`/user/${experience.users?.id}`)}
+                className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold hover:underline transition-colors"
               >
-                <ChatBubbleLeftIcon className="h-5 w-5" />
-                Chat with {experience.users?.name}
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-md">
+                  <span className="text-white font-bold text-sm">
+                    {experience.users?.name?.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+                {experience.users?.name}
               </button>
-            )}
+              {experience.users?.course && <span className="text-gray-600">• {experience.users.course}</span>}
+              {experience.users?.year && <span className="text-gray-600">• {experience.users.year}</span>}
+            </div>
+
+            {/* Meta Info - Improved Layout */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                <p className="text-xs text-gray-600 font-medium mb-1">Type:</p>
+                <p className="text-sm font-bold text-blue-700">{experience.experience_type}</p>
+              </div>
+              {experience.location && (
+                <div className="bg-purple-50 rounded-lg p-3 border border-purple-200">
+                  <p className="text-xs text-gray-600 font-medium mb-1">
+                    <MapPinIcon className="h-4 w-4 inline mr-1" />Location:
+                  </p>
+                  <p className="text-sm font-bold text-purple-700">{experience.location}</p>
+                </div>
+              )}
+              {experience.interview_date && (
+                <div className="bg-green-50 rounded-lg p-3 border border-green-200">
+                  <p className="text-xs text-gray-600 font-medium mb-1">
+                    <CalendarIcon className="h-4 w-4 inline mr-1" />Date:
+                  </p>
+                  <p className="text-sm font-bold text-green-700">{new Date(experience.interview_date).toLocaleDateString()}</p>
+                </div>
+              )}
+              <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                <p className="text-xs text-gray-600 font-medium mb-1">
+                  <EyeIcon className="h-4 w-4 inline mr-1" />Views:
+                </p>
+                <p className="text-sm font-bold text-gray-700">{experience.views_count || 0}</p>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleShare}
+                className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md"
+              >
+                <ShareIcon className="h-5 w-5" />
+                Share
+              </button>
+              
+              {user && experience.users?.id !== user.id && (
+                <button
+                  onClick={handleChat}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-md"
+                >
+                  <ChatBubbleLeftIcon className="h-5 w-5" />
+                  Chat with {experience.users?.name}
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Content Sections */}
-        <div className="space-y-6">
+        {/* Content Sections - Modern Cards */}
+        <div className="space-y-5">
           {/* Overall Experience */}
           {experience.overall_experience && (
-            <div className="bg-white rounded-2xl shadow-lg border-4 border-black p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">📋</span>
-                <h2 className="text-2xl font-bold text-gray-900">Overall Interview Process</h2>
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">📋</span>
+                  <h2 className="text-xl font-bold text-white">Overall Interview Process</h2>
+                </div>
               </div>
-              <div className="prose max-w-none">
-                <p className="text-gray-700 whitespace-pre-wrap text-lg leading-relaxed">
+              <div className="px-6 py-5">
+                <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
                   {experience.overall_experience}
                 </p>
               </div>
@@ -213,13 +229,15 @@ export default function ExperienceView() {
 
           {/* Technical Rounds */}
           {experience.technical_rounds && (
-            <div className="bg-white rounded-2xl shadow-lg border-4 border-black p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">💻</span>
-                <h2 className="text-2xl font-bold text-gray-900">Technical / Coding Rounds</h2>
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+              <div className="bg-gradient-to-r from-purple-500 to-purple-600 px-6 py-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">💻</span>
+                  <h2 className="text-xl font-bold text-white">Technical / Coding Rounds</h2>
+                </div>
               </div>
-              <div className="prose max-w-none">
-                <p className="text-gray-700 whitespace-pre-wrap text-lg leading-relaxed">
+              <div className="px-6 py-5">
+                <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
                   {experience.technical_rounds}
                 </p>
               </div>
@@ -228,13 +246,15 @@ export default function ExperienceView() {
 
           {/* HR Rounds */}
           {experience.hr_rounds && (
-            <div className="bg-white rounded-2xl shadow-lg border-4 border-black p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">👥</span>
-                <h2 className="text-2xl font-bold text-gray-900">HR / Behavioral Rounds</h2>
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+              <div className="bg-gradient-to-r from-green-500 to-green-600 px-6 py-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">👥</span>
+                  <h2 className="text-xl font-bold text-white">HR / Behavioral Rounds</h2>
+                </div>
               </div>
-              <div className="prose max-w-none">
-                <p className="text-gray-700 whitespace-pre-wrap text-lg leading-relaxed">
+              <div className="px-6 py-5">
+                <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
                   {experience.hr_rounds}
                 </p>
               </div>
@@ -243,13 +263,15 @@ export default function ExperienceView() {
 
           {/* Tips & Advice */}
           {experience.tips_and_advice && (
-            <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl shadow-lg border-4 border-black p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">💡</span>
-                <h2 className="text-2xl font-bold text-gray-900">Tips & Advice</h2>
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+              <div className="bg-gradient-to-r from-yellow-500 to-orange-500 px-6 py-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">💡</span>
+                  <h2 className="text-xl font-bold text-white">Tips & Advice</h2>
+                </div>
               </div>
-              <div className="prose max-w-none">
-                <p className="text-gray-700 whitespace-pre-wrap text-lg leading-relaxed">
+              <div className="px-6 py-5">
+                <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
                   {experience.tips_and_advice}
                 </p>
               </div>

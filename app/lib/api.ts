@@ -144,7 +144,7 @@ const apiRequest = async (
     if (!response.ok) {
       return {
         success: false,
-        error: data.errors || data.message || 'Request failed',
+        error: data.errors || data.error || data.message || 'Request failed',
         message: data.message || 'Request failed'
       };
     }
@@ -158,8 +158,8 @@ const apiRequest = async (
     console.error('API request failed:', error);
     return {
       success: false,
-      error: 'Network error',
-      message: 'Network error'
+      error: error instanceof Error ? error.message : 'Network error',
+      message: 'Unable to connect to server. Please ensure the backend is running.'
     };
   }
 };

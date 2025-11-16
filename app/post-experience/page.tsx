@@ -122,26 +122,41 @@ export default function PostExperience() {
 
   return (
     <AuthGuard requireAuth={true}>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 pointer-events-none opacity-15"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&h=1080&fit=crop)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        ></div>
+
+        {/* Gradient Orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '1s' }}></div>
+
         <Navbar />
       
-        <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto px-4 py-6 relative z-10">
           {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              Share Your Interview Experience
+          <div className="text-center mb-4">
+            <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-4">
+              Share Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Interview Experience</span>
             </h1>
-            <p className="text-lg text-gray-600">
-              Help your peers by sharing your journey
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Help your peers by sharing your authentic journey and insights
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Basic Information Card */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <span className="text-2xl">📋</span>
-                Basic Information
+            <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200 p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3 pb-4 border-b-2 border-gray-100">
+                <span className="text-3xl">📋</span>
+                <span>Basic Information</span>
               </h2>
               
               <div className="space-y-4">
@@ -155,7 +170,7 @@ export default function PostExperience() {
                     required
                     value={formData.companyId}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all"
                   >
                     <option value="">Select a company</option>
                     {companies.map((company) => (
@@ -179,7 +194,7 @@ export default function PostExperience() {
                       required
                       value={formData.customCompany}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all"
                       placeholder="e.g., Startup XYZ"
                     />
                   </div>
@@ -196,7 +211,7 @@ export default function PostExperience() {
                     required
                     value={formData.title}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all"
                     placeholder="e.g., Software Engineer Interview at Google"
                   />
                 </div>
@@ -212,7 +227,7 @@ export default function PostExperience() {
                     required
                     value={formData.role}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all"
                     placeholder="e.g., Software Engineer, Data Analyst"
                   />
                 </div>
@@ -329,7 +344,7 @@ export default function PostExperience() {
                     name="interviewDate"
                     value={formData.interviewDate}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all"
                   />
                 </div>
 
@@ -342,7 +357,7 @@ export default function PostExperience() {
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all"
                     placeholder="e.g., Bangalore, Remote"
                   />
                 </div>
@@ -435,3 +450,5 @@ export default function PostExperience() {
     </AuthGuard>
   )
 }
+
+

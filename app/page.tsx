@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
+import StudentImagesSection from './components/StudentImagesSection'
 import HeroSection from './components/HeroSection'
-import CompanyChips from './components/CompanyChips'
-import CollegeSelector from './components/CollegeSelector'
+import HowItWorks from './components/HowItWorks'
+import RecentExperiences from './components/RecentExperiences'
+import FeaturedCompanies from './components/FeaturedCompanies'
+import WhyUseSection from './components/WhyUseSection'
 
 export default function Home() {
-  const [selectedCollege, setSelectedCollege] = useState('')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -27,13 +29,11 @@ export default function Home() {
     <div className="min-h-screen">
       <Navbar />
       <HeroSection />
-      <div className="max-w-6xl mx-auto px-4">
-        <CollegeSelector 
-          onCollegeSelect={setSelectedCollege}
-          selectedCollege={selectedCollege}
-        />
-      </div>
-      <CompanyChips />
+      <HowItWorks />
+      <RecentExperiences />
+      <FeaturedCompanies />
+      <WhyUseSection />
+      <StudentImagesSection />
     </div>
   )
 }

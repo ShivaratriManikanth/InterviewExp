@@ -99,12 +99,12 @@ export default function CompaniesPage() {
   const filteredCompanies = getFilteredCompanies()
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <Navbar isLoggedIn={true} user={mockUser} />
       
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-black mb-2">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
             All Companies
           </h1>
           <p className="text-gray-600 text-lg">
@@ -113,23 +113,23 @@ export default function CompaniesPage() {
         </div>
 
         {/* Search and Filters */}
-        <div className="sticker-card p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 mb-8">
           <div className="flex items-center space-x-2 mb-4">
-            <MagnifyingGlassIcon className="h-5 w-5 text-black" />
-            <h3 className="text-lg font-semibold text-black">Find Companies</h3>
+            <MagnifyingGlassIcon className="h-5 w-5 text-gray-700" />
+            <h3 className="text-lg font-semibold text-gray-900">Find Companies</h3>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Search */}
             <div>
-              <label className="block text-sm font-medium text-black mb-2">Search Companies</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Search Companies</label>
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Search by company name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="sticker-input pr-12"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
                 />
                 <MagnifyingGlassIcon className="absolute right-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               </div>
@@ -137,11 +137,11 @@ export default function CompaniesPage() {
 
             {/* Year Filter */}
             <div>
-              <label className="block text-sm font-medium text-black mb-2">Year</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Year</label>
               <select
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(e.target.value)}
-                className="sticker-input"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 {years.map(year => (
                   <option key={year.id} value={year.id}>
@@ -153,11 +153,11 @@ export default function CompaniesPage() {
 
             {/* Branch Filter */}
             <div>
-              <label className="block text-sm font-medium text-black mb-2">Branch</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Branch</label>
               <select
                 value={selectedBranch}
                 onChange={(e) => setSelectedBranch(e.target.value)}
-                className="sticker-input"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 {branches.map(branch => (
                   <option key={branch.id} value={branch.id}>
@@ -169,9 +169,9 @@ export default function CompaniesPage() {
           </div>
 
           {/* Sort Options */}
-          <div className="flex items-center justify-between mt-4 pt-4 border-t-2 border-gray-100">
+          <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
             <div className="flex items-center space-x-4">
-              <span className="text-sm font-semibold text-black">Sort by:</span>
+              <span className="text-sm font-semibold text-gray-700">Sort by:</span>
               <div className="flex space-x-2">
                 {[
                   { id: 'experiences', label: 'Most Experiences' },
@@ -181,10 +181,10 @@ export default function CompaniesPage() {
                   <button
                     key={option.id}
                     onClick={() => setSortBy(option.id)}
-                    className={`px-3 py-1 rounded-lg border-2 border-black text-sm font-medium transition-colors ${
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                       sortBy === option.id
-                        ? 'bg-ocean-400 text-white'
-                        : 'bg-white text-black hover:bg-ocean-100'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
                     {option.label}
@@ -218,9 +218,9 @@ export default function CompaniesPage() {
 
         {/* Empty State */}
         {filteredCompanies.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-12 bg-white rounded-xl shadow-md border border-gray-200">
             <FunnelIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-black mb-2">No companies found</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">No companies found</h3>
             <p className="text-gray-600 mb-6">
               Try adjusting your search or filter criteria
             </p>
@@ -230,7 +230,7 @@ export default function CompaniesPage() {
                 setSelectedYear('all')
                 setSelectedBranch('all')
               }}
-              className="sticker-button"
+              className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors"
             >
               Clear All Filters
             </button>
@@ -240,29 +240,29 @@ export default function CompaniesPage() {
         {/* Stats */}
         {filteredCompanies.length > 0 && (
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="sticker-card p-4 text-center">
-              <div className="text-2xl font-bold text-ocean-600 mb-1">
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 text-center">
+              <div className="text-3xl font-bold text-blue-600 mb-1">
                 {filteredCompanies.reduce((sum, company) => sum + company.experienceCount, 0)}
               </div>
-              <div className="text-sm text-gray-600">Total Experiences</div>
+              <div className="text-sm text-gray-600 font-medium">Total Experiences</div>
             </div>
-            <div className="sticker-card p-4 text-center">
-              <div className="text-2xl font-bold text-mint-600 mb-1">
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 text-center">
+              <div className="text-3xl font-bold text-green-600 mb-1">
                 {filteredCompanies.filter(c => c.tier === 'FAANG').length}
               </div>
-              <div className="text-sm text-gray-600">FAANG Companies</div>
+              <div className="text-sm text-gray-600 font-medium">FAANG Companies</div>
             </div>
-            <div className="sticker-card p-4 text-center">
-              <div className="text-2xl font-bold text-peach-600 mb-1">
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 text-center">
+              <div className="text-3xl font-bold text-purple-600 mb-1">
                 {filteredCompanies.filter(c => c.category === 'Product').length}
               </div>
-              <div className="text-sm text-gray-600">Product Companies</div>
+              <div className="text-sm text-gray-600 font-medium">Product Companies</div>
             </div>
-            <div className="sticker-card p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600 mb-1">
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 text-center">
+              <div className="text-3xl font-bold text-orange-600 mb-1">
                 {filteredCompanies.filter(c => c.tier === 'Unicorn').length}
               </div>
-              <div className="text-sm text-gray-600">Unicorn Startups</div>
+              <div className="text-sm text-gray-600 font-medium">Unicorn Startups</div>
             </div>
           </div>
         )}

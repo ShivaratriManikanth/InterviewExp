@@ -399,12 +399,12 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-mint-50 via-white to-peach-50">
       <Navbar />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Profile Header */}
-        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8 mb-6">
+        <div className="sticker-card p-8 mb-6">
           <div className="flex justify-between items-start mb-6 flex-wrap gap-4">
             <div className="flex items-center space-x-4">
               <div className="relative group">
@@ -412,10 +412,10 @@ export default function ProfilePage() {
                   <img 
                     src={profilePicturePreview || user.profilePicture} 
                     alt={user.name}
-                    className="w-24 h-24 rounded-full border-4 border-gray-200 object-cover shadow-lg"
+                    className="w-24 h-24 rounded-full border-4 border-black object-cover shadow-sticker"
                   />
                 ) : (
-                  <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full border-4 border-gray-200 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+                  <div className="w-24 h-24 bg-gradient-to-br from-ocean-400 to-mint-400 rounded-full border-4 border-black flex items-center justify-center text-white text-3xl font-bold shadow-sticker">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -432,14 +432,14 @@ export default function ProfilePage() {
                 )}
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-1">{user.name}</h1>
+                <h1 className="text-3xl font-bold text-black mb-1">{user.name}</h1>
                 <p className="text-gray-700 font-medium">{user.email}</p>
                 {user.rollNo && <p className="text-sm text-gray-600 font-medium mt-1">📝 Roll No: {user.rollNo}</p>}
               </div>
             </div>
             <button
               onClick={() => setIsEditingProfile(!isEditingProfile)}
-              className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors"
+              className="sticker-button"
             >
               {isEditingProfile ? '❌ Cancel' : '✏️ Edit Profile'}
             </button>
@@ -447,17 +447,17 @@ export default function ProfilePage() {
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-blue-50 rounded-xl border border-blue-200 p-5">
-              <p className="text-sm text-gray-700 font-semibold mb-1">📊 Posts Published</p>
-              <p className="text-3xl font-bold text-blue-600">{stats.postsPublished}</p>
+            <div className="bg-ocean-100 rounded-xl border-3 border-black p-5 shadow-sticker">
+              <p className="text-sm text-black font-bold mb-1">📊 Posts Published</p>
+              <p className="text-3xl font-bold text-black">{stats.postsPublished}</p>
             </div>
-            <div className="bg-green-50 rounded-xl border border-green-200 p-5">
-              <p className="text-sm text-gray-700 font-semibold mb-1">👁️ Total Views</p>
-              <p className="text-3xl font-bold text-green-600">{stats.totalViews}</p>
+            <div className="bg-mint-100 rounded-xl border-3 border-black p-5 shadow-sticker">
+              <p className="text-sm text-black font-bold mb-1">👁️ Total Views</p>
+              <p className="text-3xl font-bold text-black">{stats.totalViews}</p>
             </div>
-            <div className="bg-purple-50 rounded-xl border border-purple-200 p-5">
-              <p className="text-sm text-gray-700 font-semibold mb-1">💬 Comments Made</p>
-              <p className="text-3xl font-bold text-purple-600">{stats.commentsMade}</p>
+            <div className="bg-peach-100 rounded-xl border-3 border-black p-5 shadow-sticker">
+              <p className="text-sm text-black font-bold mb-1">💬 Comments Made</p>
+              <p className="text-3xl font-bold text-black">{stats.commentsMade}</p>
             </div>
           </div>
 
@@ -471,7 +471,7 @@ export default function ProfilePage() {
                     type="text"
                     value={editedUser.name || ''}
                     onChange={(e) => setEditedUser({ ...editedUser, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border-3 border-black rounded-xl focus:ring-4 focus:ring-ocean-200 focus:outline-none font-medium"
                   />
                 </div>
                 <div>
@@ -720,12 +720,12 @@ export default function ProfilePage() {
         </div>
 
         {/* Experiences Section */}
-        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 mb-6">
+        <div className="sticker-card p-6 mb-6">
           <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
-            <h2 className="text-2xl font-bold text-gray-900">📝 My Experiences</h2>
+            <h2 className="text-2xl font-bold text-black">📝 My Experiences</h2>
             <Link
               href="/post-experience"
-              className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors"
+              className="sticker-button"
             >
               ➕ Post New Experience
             </Link>
@@ -737,7 +737,7 @@ export default function ProfilePage() {
               <p className="text-gray-700 font-medium mb-4">You haven't posted any experiences yet.</p>
               <Link
                 href="/post-experience"
-                className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors"
+                className="sticker-button"
               >
                 ✨ Post Your First Experience
               </Link>
@@ -747,21 +747,21 @@ export default function ProfilePage() {
               {experiences.map((exp) => (
                 <div
                   key={exp.id}
-                  className="bg-gray-50 rounded-xl border border-gray-200 p-5 hover:shadow-lg hover:border-blue-300 transition-all duration-200"
+                  className="bg-white rounded-xl border-3 border-black p-5 hover:shadow-sticker-hover hover:-translate-y-1 transition-all duration-200"
                 >
                   <div className="flex justify-between items-start mb-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-2 flex-wrap">
-                        <h3 className="text-xl font-bold text-gray-900 break-words">
+                        <h3 className="text-xl font-bold text-black break-words">
                           {exp.company?.name} - {exp.role}
                         </h3>
                         {getStatusBadge(exp.status)}
                       </div>
                       <div className="flex flex-wrap gap-2 text-sm">
-                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-lg font-semibold">
+                        <span className="px-3 py-1 bg-mint-100 text-black rounded-lg border-2 border-black font-bold">
                           {exp.experienceType}
                         </span>
-                        <span className={`px-3 py-1 rounded-lg font-semibold ${
+                        <span className={`px-3 py-1 rounded-lg border-2 border-black font-bold ${
                           exp.result === 'Selected' ? 'bg-green-100 text-green-800' :
                           exp.result === 'Not Selected' ? 'bg-red-100 text-red-800' :
                           'bg-yellow-100 text-yellow-800'
@@ -769,14 +769,14 @@ export default function ProfilePage() {
                           {exp.result}
                         </span>
                         {exp.interviewDate && (
-                          <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg font-semibold">
+                          <span className="px-3 py-1 bg-peach-100 text-black rounded-lg border-2 border-black font-bold">
                             📅 {new Date(exp.interviewDate).toLocaleDateString()}
                           </span>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="flex items-center text-sm text-gray-700 font-semibold bg-gray-100 px-3 py-1 rounded-lg">
+                      <span className="flex items-center text-sm text-black font-bold bg-ocean-100 px-3 py-1 rounded-lg border-2 border-black">
                         <EyeIcon className="w-4 h-4 mr-1" />
                         {exp.views || 0}
                       </span>
@@ -785,7 +785,7 @@ export default function ProfilePage() {
                   <div className="flex flex-wrap gap-2">
                     <Link
                       href={`/experience/${exp.id}`}
-                      className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium transition-colors text-sm"
+                      className="sticker-button-secondary text-sm"
                     >
                       👁️ View Details
                     </Link>

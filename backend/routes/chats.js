@@ -1,8 +1,12 @@
 const express = require('express');
 const { supabase } = require('../config/database');
 const { validate, schemas } = require('../middleware/validation');
+const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
+
+// Apply authentication to all chat routes
+router.use(authenticateToken);
 
 // @route   GET /api/chats
 // @desc    Get user's conversations
