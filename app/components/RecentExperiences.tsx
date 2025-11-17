@@ -4,8 +4,21 @@ import { useState, useEffect } from 'react'
 import { ClockIcon, BuildingOfficeIcon, UserIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
+interface Experience {
+  id: number | string
+  company: string
+  role: string
+  author: string
+  college: string
+  date: string
+  excerpt: string
+  difficulty: string
+  result: string
+  companyColor: string
+}
+
 export default function RecentExperiences() {
-  const [experiences, setExperiences] = useState([])
+  const [experiences, setExperiences] = useState<Experience[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
