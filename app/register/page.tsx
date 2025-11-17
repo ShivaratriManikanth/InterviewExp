@@ -178,7 +178,7 @@ export default function Register() {
       } else {
         // Show detailed error message
         if (response.error && typeof response.error === 'object' && Array.isArray(response.error)) {
-          const errorMessages = response.error.map((err: any) => `• ${err.field}: ${err.message}`).join('\n')
+          const errorMessages = (response.error as any[]).map((err: any) => `• ${err.field}: ${err.message}`).join('\n')
           alert('❌ Registration Failed:\n\n' + errorMessages)
         } else {
           alert('❌ ' + (response.message || 'Registration failed. Please try again.'))
